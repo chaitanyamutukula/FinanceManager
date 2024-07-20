@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money Spending Suggestions</title>
+  <link rel="stylesheet" href="style.css">
+  <style>/* Add this CSS code to your style.css file or within <style> tags in the HTML file */
+
+    .suggestions-container {
+      margin-top: 20px;
+    }
+    
+    #suggestionsTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    
+    #suggestionsTable th,
+    #suggestionsTable td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    #suggestionsTable th {
+      background-color: #f2f2f2;
+    }
+    
+    #suggestionsTable tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <div class="logo">
+            <a href="home.html">
+              <img src="logo.png" alt="Finance Manager Logo">
+            </a>
+          </div>
+          <div class="options">
+            <a href="#" class="option">
+              <img src="notifications.png" alt="Notifications Icon" class="notification-icon">
+            </a>
+            <a href="settings.html" class="option">
+              <img src="settings.png" alt="Notifications Icon" class="notification-icon">
+            </a>
+          </div>
+        </div>
+      </header>
+
+  <main>
+    <div class="spending-container">
+      <h2>Money Spending Suggestions</h2>
+      <form id="spendingForm">
+        <div class="form-group">
+          <label for="amount">Enter the amount in Indian Rupees:</label>
+          <input type="number" id="amount" name="amount" required>
+        </div>
+        <button type="submit">Find Suggestions</button>
+      </form>
+      <div class="suggestions-container">
+        <h3>Suggestions:</h3>
+        <table id="suggestionsTable">
+          <thead>
+            <tr>
+              <th>Suggestion</th>
+              <th>Cost (INR)</th>
+            </tr>
+          </thead>
+          <tbody id="suggestionsList"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('spendingForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      var amount = parseFloat(document.getElementById('amount').value);
+
+      if (isNaN(amount) || amount <= 0) {
+        alert('Please enter a valid amount.');
+        return;
+      }
+
+      var suggestionsList = document.getElementById('suggestionsList');
+      suggestionsList.innerHTML = '';
+
+      var suggestions = getSuggestion(amount);
+
+      if (suggestions.length === 0) {
+        suggestionsList.innerHTML = '<tr><td colspan="2">No suggestion found.</td></tr>';
+      } else {
+        for (var i = 0; i < suggestions.length; i++) {
+          var row = suggestionsList.insertRow();
+          var nameCell = row.insertCell(0);
+          var costCell = row.insertCell(1);
+          nameCell.textContent = suggestions[i].name;
+          costCell.textContent = suggestions[i].cost;
+        }
+      }
+    });
+
+    function getSuggestion(amount) {
+      var suggestionsList = [];
+
+      while (amount >= 100 && suggestionsList.length < 5) {
+        var suggestion = getRandomSuggestion();
+        if (suggestion.cost <= amount) {
+          suggestionsList.push(suggestion);
+          amount -= suggestion.cost;
+        }
+      }
+
+      return suggestionsList;
+    }
+
+    function getRandomSuggestion() {
+      var suggestions = [
+        { name: 'Shoes', cost: 1500 },
+        { name: 'Food', cost: 500 },
+        { name: 'Clothes', cost: 2000 },
+        { name: 'Travel', cost: 1000 },
+        { name: 'Electronics', cost: 3000 },
+        { name: 'Books', cost: 800 },
+        { name: 'Gadgets', cost: 1200 },
+        { name: 'Concert Tickets', cost: 2500 },
+        { name: 'Home Decor', cost: 1800 },
+        { name: 'Fitness Equipment', cost: 900 },
+        { name: 'Art Supplies', cost: 700 },
+        { name: 'Outdoor Gear', cost: 1700 },
+        { name: 'Movie Streaming Subscription', cost: 200 },
+        { name: 'Music Instrument', cost: 2200 },
+        { name: 'Cooking Appliances', cost: 1400 },
+        { name: 'Coffee or Tea at a Local Cafe', cost: 150 },
+  { name: 'Lunch at a Street Food Vendor', cost: 200 },
+  { name: 'Movie Night at the Theater', cost: 500 },
+  { name: 'Grocery Shopping and Cooking at Home', cost: 800 },
+  { name: 'Buying Books or E-books', cost: 300 },
+  { name: 'Picnic in the Park', cost: 400 },
+  { name: 'Ice Cream or Dessert Treat', cost: 200 },
+  { name: 'Visiting a Museum or Art Gallery', cost: 250 },
+  { name: 'Exploring a Local Park or Garden', cost: 0 },
+  { name: 'Attending a Community Event or Fair', cost: 100 },
+  { name: 'Taking a Walk or Hike', cost: 0 },
+  { name: 'Having a DIY Spa Day at Home', cost: 200 },
+  { name: 'Playing Board Games with Friends', cost: 0 },
+  { name: 'Watching a Movie or TV Series at Home', cost: 0 },
+  { name: 'Trying Out a New Recipe', cost: 300 },
+  { name: 'Taking a Yoga or Fitness Class', cost: 400 },
+  { name: 'Visiting a Local Library', cost: 0 },
+  { name: 'Shopping for Secondhand Items', cost: 200 },
+  { name: 'Attending a Free Concert or Performance', cost: 0 },
+  { name: 'Volunteering for a Community Cause', cost: 0 },
+  { name: 'Having a Picnic by the Beach', cost: 200 },
+  { name: 'Doing DIY Crafts or Art Projects', cost: 100 },
+  { name: 'Trying Out a New Hobby', cost: 200 },
+  { name: 'Visiting Friends or Family', cost: 0 },
+  { name: 'Taking Photos and Exploring Photography', cost: 0 },
+  { name: 'Organizing a Game Night with Friends', cost: 0 },
+  { name: 'Attending a Free Workshop or Seminar', cost: 0 },
+  { name: 'Taking a Bike Ride in the Neighborhood', cost: 0 },
+  { name: 'Having a Barbecue or Cookout', cost: 300 },
+  { name: 'Visiting a Farmer\'s Market', cost: 0 },
+  { name: 'Doing DIY Home Improvement Projects', cost: 200 },
+        { name: 'Gym Membership', cost: 3000 },
+        { name: 'Sports Equipment', cost: 1100 },
+        { name: 'Pet Accessories', cost: 900 },
+        { name: 'Travel Backpack', cost: 1800 },
+        { name: 'Camera', cost: 3500 },
+        { name: 'Gardening Tools', cost: 1200 },
+        { name: 'Kitchen Utensils', cost: 500 },
+        { name: 'Home Theater System', cost: 5000 },
+        { name: 'Artwork', cost: 2500 },
+        { name: 'Hiking Boots', cost: 2000 },
+        { name: 'Smartwatch', cost: 4000 },
+        { name: 'Cooking Classes', cost: 1500 },
+        { name: 'Board Games', cost: 800 },
+        { name: 'Bicycle', cost: 3000 },
+        { name: 'Skiing/Snowboarding Trip', cost: 5000 },
+        { name: 'Smart Home Devices', cost: 2500 },
+        { name: 'Handbag/Purse', cost: 2000 },
+        { name: 'Language Learning Course', cost: 1000 },
+        { name: 'Concert or Festival Tickets', cost: 3000 },
+        { name: 'Camping Gear', cost: 1500 },
+        { name: 'Headphones', cost: 800 },
+        { name: 'Yoga Classes', cost: 1200 },
+        { name: 'Plant Collection', cost: 500 },
+        { name: 'Board Game', cost: 400 },
+        { name: 'Fitness Tracker', cost: 2000 },
+        { name: 'Sunglasses', cost: 1000 },
+        { name: 'Painting Supplies', cost: 600 },
+        { name: 'Running Shoes', cost: 1500 },
+        { name: 'Tech Gadgets', cost: 2500 },
+        { name: 'Antique Collectible', cost: 3500 },
+        { name: 'Sailing Adventure', cost: 4500 },
+        { name: 'Fashion Accessories', cost: 800 },
+        { name: 'Wristwatch', cost: 2000 },
+        { name: 'Car Detailing Service', cost: 1000 },
+        { name: 'Hobby Kit', cost: 1200 },
+        { name: 'Gourmet Cooking Ingredients', cost: 500 },
+        
+        { name: 'Shoes', cost: 1000 },
+{ name: 'Headphones', cost: 800 },
+{ name: 'T-shirt', cost: 300 },
+{ name: 'Jeans', cost: 1200 },
+{ name: 'Watch', cost: 1500 },
+{ name: 'Sunglasses', cost: 500 },
+{ name: 'Backpack', cost: 800 },
+{ name: 'Wallet', cost: 400 },
+{ name: 'Perfume', cost: 1000 },
+{ name: 'Phone case', cost: 200 },
+{ name: 'Laptop bag', cost: 700 },
+{ name: 'Socks', cost: 100 },
+{ name: 'Hat', cost: 300 },
+{ name: 'Belt', cost: 400 },
+{ name: 'Umbrella', cost: 200 },
+{ name: 'Bracelet', cost: 500 },
+{ name: 'Earrings', cost: 400 },
+{ name: 'Necklace', cost: 600 },
+{ name: 'Ring', cost: 700 },
+{ name: 'Scarf', cost: 300 },
+{ name: 'Gloves', cost: 200 },
+{ name: 'Tie', cost: 400 },
+{ name: 'Hair accessories', cost: 100 },
+{ name: 'Makeup brushes', cost: 500 },
+{ name: 'Nail polish', cost: 200 },
+{ name: 'Lipstick', cost: 300 },
+{ name: 'Face mask', cost: 100 },
+{ name: 'Body lotion', cost: 400 },
+{ name: 'Shampoo', cost: 200 },
+{ name: 'Conditioner', cost: 200 },
+{ name: 'Shower gel', cost: 150 },
+{ name: 'Deodorant', cost: 200 },
+{ name: 'Toothbrush', cost: 50 },
+{ name: 'Toothpaste', cost: 100 },
+{ name: 'Razor', cost: 150 },
+{ name: 'Shaving cream', cost: 100 },
+{ name: 'Soap', cost: 50 },
+{ name: 'Towel', cost: 300 },
+{ name: 'Pillow', cost: 400 },
+{ name: 'Bedsheets', cost: 600 },
+{ name: 'Blanket', cost: 500 },
+{ name: 'Coffee mug', cost: 200 },
+{ name: 'Water bottle', cost: 150 },
+{ name: 'Blender', cost: 1000 },
+{ name: 'Cooking utensils', cost: 500 },
+{ name: 'Cutting board', cost: 200 },
+{ name: 'Pots and pans', cost: 800 },
+{ name: 'Knife set', cost: 700 },
+{ name: 'Dinnerware set', cost: 600 },
+{ name: 'Glassware set', cost: 500 },
+{ name: 'Coffee maker', cost: 1000 },
+{ name: 'Toaster', cost: 800 },
+{ name: 'Microwave', cost: 1500 },
+{ name: 'Blender', cost: 1000 },
+{ name: 'Slow cooker', cost: 1200 },
+{ name: 'Rice cooker', cost: 800 },
+{ name: 'Vacuum cleaner', cost: 2000 },
+{ name: 'Iron', cost: 800 },
+{ name: 'Clothes hangers', cost: 100 },
+{ name: 'Laundry basket', cost: 200 },
+{ name: 'Storage containers', cost: 300 },
+{ name: 'Desk lamp', cost: 500 },
+{ name: 'Desk organizer', cost: 400 },
+{ name: 'Notebook', cost: 200 },
+{ name: 'Pens', cost: 100 },
+{ name: 'Calculator', cost: 300 },
+{ name: 'Desk chair', cost: 1000 },
+{ name: 'Bookshelf', cost: 1500 },
+{ name: 'Wall clock', cost: 500 },
+{ name: 'Picture frame', cost: 200 },
+{ name: 'Indoor plants', cost: 300 },
+{ name: 'Yoga mat', cost: 500 },
+{ name: 'Dumbbells', cost: 800 },
+{ name: 'Resistance bands', cost: 300 },
+{ name: 'Exercise ball', cost: 400 },
+{ name: 'Jump rope', cost: 150 },
+{ name: 'Bicycle', cost: 2000 },
+{ name: 'Skateboard', cost: 1500 },
+{ name: 'Tennis racket', cost: 1000 },
+{ name: 'Soccer ball', cost: 300 },
+{ name: 'Basketball', cost: 400 },
+{ name: 'Volleyball', cost: 500 },
+{ name: 'Board game', cost: 800 },
+{ name: 'Puzzle', cost: 200 },
+{ name: 'Playing cards', cost: 100 },
+{ name: 'Guitar', cost: 1500 },
+{ name: 'Keyboard', cost: 1200 },
+{ name: 'Art supplies', cost: 500 },
+{ name: 'Camera', cost: 2000 },
+{ name: 'Telescope', cost: 1500 },
+{ name: 'Binoculars', cost: 800 },
+{ name: 'Camping tent', cost: 1000 },
+{ name: 'Sleeping bag', cost: 800 },
+{ name: 'Backpacking stove', cost: 500 },
+{ name: 'Hammock', cost: 400 },
+{ name: 'Picnic basket', cost: 300 },
+{ name: 'Travel adapter', cost: 200 },
+{ name: 'Portable charger', cost: 500 },
+{ name: 'Portable speaker', cost: 600 },
+{ name: 'Travel pillow', cost: 200 },
+{ name: 'Smartphone', cost: 20000 },
+{ name: 'Laptop', cost: 50000 },
+{ name: 'Television', cost: 30000 },
+{ name: 'Camera', cost: 40000 },
+{ name: 'Gaming console', cost: 30000 },
+{ name: 'Refrigerator', cost: 25000 },
+{ name: 'Washing machine', cost: 20000 },
+{ name: 'Air conditioner', cost: 40000 },
+{ name: 'Tablet', cost: 15000 },
+{ name: 'Fitness tracker', cost: 5000 },
+{ name: 'Headphones', cost: 2000 },
+{ name: 'Bluetooth speaker', cost: 3000 },
+{ name: 'Smartwatch', cost: 10000 },
+{ name: 'Home theater system', cost: 50000 },
+{ name: 'DSLR camera', cost: 60000 },
+{ name: 'Drone', cost: 50000 },
+{ name: 'Gaming laptop', cost: 80000 },
+{ name: 'Soundbar', cost: 10000 },
+{ name: 'Projector', cost: 50000 },
+{ name: 'E-book reader', cost: 5000 },
+{ name: 'Portable hard drive', cost: 3000 },
+{ name: 'Monitor', cost: 10000 },
+{ name: 'External SSD', cost: 5000 },
+{ name: 'Wireless earbuds', cost: 5000 },
+{ name: 'Graphics tablet', cost: 10000 },
+{ name: 'Robot vacuum cleaner', cost: 20000 },
+{ name: 'Smart home security system', cost: 50000 },
+{ name: 'Electric scooter', cost: 30000 },
+{ name: 'Digital piano', cost: 50000 },
+{ name: 'VR headset', cost: 20000 },
+{ name: 'Cordless drill', cost: 3000 },
+{ name: 'Home espresso machine', cost: 20000 },
+{ name: 'Professional camera lens', cost: 60000 },
+{ name: 'High-end gaming keyboard', cost: 5000 },
+{ name: 'Wireless router', cost: 3000 },
+{ name: 'Solar panel kit', cost: 50000 },
+{ name: 'Electric guitar', cost: 20000 },
+{ name: 'Home theater projector', cost: 40000 },
+{ name: 'Electric bike', cost: 50000 },
+{ name: 'Diving gear set', cost: 100000 },
+{ name: 'Home automation system', cost: 80000 },
+{ name: 'Motorcycle', cost: 60000 },
+{ name: 'Quadcopter drone', cost: 30000 },
+{ name: 'High-end graphics card', cost: 50000 },
+{ name: 'Professional studio microphone', cost: 10000 },
+{ name: 'Advanced digital drawing tablet', cost: 20000 },
+{ name: 'Skiing equipment set', cost: 50000 },
+{ name: 'Home solar power system', cost: 100000 },
+{ name: 'Professional video camera', cost: 80000 },
+{ name: 'Electric skateboard', cost: 30000 },
+{ name: 'High-end gaming monitor', cost: 20000 },
+{ name: 'Luxury watch', cost: 100000 },
+{ name: 'Photography lighting kit', cost: 50000 },
+{ name: 'Professional DJ controller', cost: 60000 },
+{ name: 'Home gym equipment set', cost: 80000 },
+{ name: 'Professional video editing software', cost: 30000 },
+{ name: 'Studio recording equipment set', cost: 50000 },
+{ name: 'Home cinema seating', cost: 100000 },
+{ name: 'Advanced 3D printer', cost: 80000 },
+{ name: 'Vintage car', cost: 1000000 },
+{ name: 'Motorhome', cost: 500000 },
+{ name: 'Private yacht', cost: 1000000 },
+{ name: 'Luxury vacation package', cost: 500000 },
+{ name: 'Diamond jewelry set', cost: 100000 },
+{ name: 'Designer handbag', cost: 20000 },
+{ name: 'Luxury perfume', cost: 5000 },
+{ name: 'Limited edition artwork', cost: 80000 },
+{ name: 'Luxury fashion accessories', cost: 30000 },
+{ name: 'Private helicopter tour', cost: 500000 },
+{ name: 'High-end luxury car', cost: 1000000 },
+{ name: 'Luxury villa', cost: 500000 },
+{ name: 'Fine dining experience', cost: 10000 },
+{ name: 'Personalized luxury travel itinerary', cost: 50000 },
+{ name: 'Exclusive VIP event tickets', cost: 20000 },
+{ name: 'Luxury spa and wellness retreat', cost: 30000 },
+{ name: 'Private island vacation', cost: 1000000 },
+{ name: 'Custom tailored designer suit', cost: 50000 },
+{ name: 'Luxury watch collection', cost: 100000 },
+{ name: 'First-class airline tickets', cost: 50000 },
+{ name: 'Luxury cruise experience', cost: 100000 },
+{ name: 'Luxury safari adventure', cost: 50000 },
+{ name: 'Luxury wedding package', cost: 100000 },
+{ name: 'Exclusive fashion runway show', cost: 50000 },
+{ name: 'Luxury golf vacation', cost: 30000 },
+{ name: 'Customized luxury furniture', cost: 50000 },
+{ name: 'Private chef services', cost: 20000 },
+{ name: 'Luxury yacht charter', cost: 100000 },
+{ name: 'High-end home automation system', cost: 50000 },
+{ name: 'Luxury art collection', cost: 100000 },
+{ name: 'Private jet membership', cost: 500000 },
+{ name: 'Exclusive fashion shopping experience', cost: 20000 },
+{ name: 'Luxury real estate property', cost: 1000000 },
+{ name: 'Private music concert performance', cost: 50000 },
+{ name: 'Luxury cigar collection', cost: 10000 },
+{ name: 'VIP access to major sporting events', cost: 50000 },
+{ name: 'Luxury private tour of exotic destinations', cost: 200000 },
+{ name: 'High-end home theater system', cost: 100000 },
+{ name: 'Luxury corporate retreat package', cost: 500000 },
+{ name: 'Custom-built luxury swimming pool', cost: 1000000 },
+  { name: 'Trying a New Restaurant in Town', cost: 200 },
+  { name: 'Going Bowling with Friends', cost: 150 },
+  { name: 'Visiting a Local Escape Room', cost: 300 },
+  { name: 'Going for a Go-Kart Racing Session', cost: 250 },
+  { name: 'Taking a Painting or Art Workshop', cost: 500 },
+  { name: 'Having a Spa Treatment or Massage', cost: 800 },
+  { name: 'Attending a Stand-Up Comedy Show', cost: 400 },
+  { name: 'Taking a Dance Class or Workshop', cost: 300 },
+  { name: 'Going for a Hiking or Nature Trail Adventure', cost: 0 },
+  { name: 'Visiting a Water Park or Amusement Park', cost: 1000 },
+  { name: 'Taking a Boat Ride or Kayaking Trip', cost: 500 },
+  { name: 'Going for a Paintball or Laser Tag Session', cost: 200 },
+  { name: 'Going to a Trampoline Park or Indoor Playground', cost: 300 },
+  { name: 'Taking a Pottery or Ceramics Class', cost: 400 },
+  { name: 'Attending a Live Music Concert or Gig', cost: 800 },
+  { name: 'Going for a Zip Line or Ropes Course Adventure', cost: 600 },
+  { name: 'Taking a Sailing or Boating Trip', cost: 1000 },
+  { name: 'Having a Cooking Class or Culinary Experience', cost: 600 },
+  { name: 'Visiting a Virtual Reality Gaming Center', cost: 300 },
+  { name: 'Going for a Stand-Up Paddleboarding Session', cost: 400 },
+  { name: 'Taking a Photography or Filmmaking Workshop', cost: 800 },
+  { name: 'Going for a Segway or Scooter Tour', cost: 300 },
+  { name: 'Attending a Yoga or Wellness Retreat', cost: 1500 },
+  { name: 'Taking a Horseback Riding or Trail Riding Adventure', cost: 1000 },
+  { name: 'Going for a Helicopter Tour or Sightseeing Flight', cost: 2000 },
+  { name: 'Taking a Surfing or Bodyboarding Lesson', cost: 500 },
+  { name: 'Having a Golf or Mini Golf Session', cost: 200 },
+  { name: 'Going for a Stand-Up Paddleboard Yoga Class', cost: 300 },
+  { name: 'Taking a Guided Tour of a Historical Site or Landmark', cost: 400 },
+  { name: 'Going for a Skydiving or Indoor Skydiving Experience', cost: 1500 },
+  { name: 'Taking a Fitness Bootcamp or CrossFit Class', cost: 500 },
+  { name: 'Attending a Cooking or Mixology Workshop', cost: 600 },
+  { name: 'Going for a Rock Climbing or Bouldering Session', cost: 400 },
+  { name: 'Taking a Glassblowing or Pottery Making Class', cost: 800 },
+  { name: 'Going for a Stand-Up Comedy Workshop or Open Mic Night', cost: 200 },
+  { name: 'Having a Hot Air Balloon Ride', cost: 2000 },
+  { name: 'Taking a Scuba Diving or Snorkeling Adventure', cost: 1000 },
+  { name: 'Going for an Archery or Axe Throwing Session', cost: 300 },
+      ];
+
+      var randomIndex = Math.floor(Math.random() * suggestions.length);
+      return suggestions[randomIndex];
+    }
+  </script>
+</body>
+</html>

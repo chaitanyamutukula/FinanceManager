@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budgeting</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <div class="logo">
+            <a href="home.html">
+              <img src="logo.png" alt="Finance Manager Logo">
+            </a>
+          </div>
+          <div class="options">
+            <a href="#" class="option">
+              <img src="notifications.png" alt="Notifications Icon" class="notification-icon">
+            </a>
+            <a href="settings.html" class="option">
+              <img src="settings.png" alt="Notifications Icon" class="notification-icon">
+            </a>
+          </div>
+        </div>
+      </header>
+
+  <main>
+    <div class="budget-container">
+      <h2>Budgeting</h2>
+      <form id="budgetForm">
+        <div class="form-group">
+          <label for="income">Income:</label>
+          <input type="number" id="income" name="income" required>
+        </div>
+        <div class="form-group">
+          <label for="expenses">Expenses:</label>
+          <input type="number" id="expenses" name="expenses" required>
+        </div>
+        <div class="form-group">
+          <label for="savings">Savings:</label>
+          <input type="number" id="savings" name="savings" required>
+        </div>
+        <button type="submit">Calculate</button>
+      </form>
+      <div class="result-container">
+        <h3>Budget Summary</h3>
+        <table id="budgetTable">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Income</td>
+              <td id="incomeAmount"></td>
+            </tr>
+            <tr>
+              <td>Expenses</td>
+              <td id="expensesAmount"></td>
+            </tr>
+            <tr>
+              <td>Savings</td>
+              <td id="savingsAmount"></td>
+            </tr>
+            <tr>
+              <td>Total</td>
+              <td id="totalAmount"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  
+  <script>
+    document.getElementById('budgetForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+      calculateBudget();
+    });
+
+    function calculateBudget() {
+      // Retrieve form input values
+      const income = parseFloat(document.getElementById('income').value);
+      const expenses = parseFloat(document.getElementById('expenses').value);
+      const savings = parseFloat(document.getElementById('savings').value);
+
+      // Calculate total amount
+      const total = income - expenses - savings;
+
+      // Update table with calculated amounts
+      document.getElementById('incomeAmount').textContent = formatAmount(income);
+      document.getElementById('expensesAmount').textContent = formatAmount(expenses);
+      document.getElementById('savingsAmount').textContent = formatAmount(savings);
+      document.getElementById('totalAmount').textContent = formatAmount(total);
+    }
+
+    function formatAmount(amount) {
+      return amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    }
+  </script>
+</body>
+</html>

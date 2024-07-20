@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Currency Converter</title>
+  <style>
+    /* Your custom CSS styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      padding: 0 20px;
+    }
+
+    label {
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #333333;
+    }
+
+    input[type="number"],
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+      font-size: 16px;
+      color: #333333;
+    }
+
+    button[type="button"] {
+      padding: 12px 24px;
+      background-color: #2EC4B6;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    button[type="button"]:hover {
+      background-color: #27A09E;
+    }
+
+    #result {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Currency Converter</h1>
+  <form>
+    <label for="amount">Amount:</label>
+    <input type="number" id="amount" step="0.01" min="0">
+    <br><br>
+    <label for="fromCurrency">From Currency:</label>
+    <select id="fromCurrency">
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="GBP">GBP</option>
+      <option value="JPY">JPY</option>
+      <option value="INR">INR</option>
+      <!-- Add more currency options here -->
+    </select>
+    <br><br>
+    <label for="toCurrency">To Currency:</label>
+    <select id="toCurrency">
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="GBP">GBP</option>
+      <option value="JPY">JPY</option>
+      <option value="INR">INR</option>
+      <!-- Add more currency options here -->
+    </select>
+    <br><br>
+    <button type="button" onclick="convertCurrency()">Convert</button>
+  </form>
+  <br>
+  <div id="result"></div>
+
+  <script>
+    function convertCurrency() {
+      var amount = parseFloat(document.getElementById("amount").value);
+      var fromCurrency = document.getElementById("fromCurrency").value;
+      var toCurrency = document.getElementById("toCurrency").value;
+
+      // Perform currency conversion calculation
+      var convertedAmount = amount * getExchangeRate(fromCurrency, toCurrency);
+
+      // Display the converted amount
+      document.getElementById("result").innerHTML = convertedAmount.toFixed(2) + " " + toCurrency;
+    }
+
+    function getExchangeRate(fromCurrency, toCurrency) {
+      // Add your own logic to fetch exchange rates from a reliable source
+      // or use an API to retrieve real-time exchange rates
+      // In this example, we are using a simple conversion rate
+      var exchangeRates = {
+        "USD": {
+          "EUR": 0.85,
+          "GBP": 0.72,
+          "JPY": 110.25,
+          "INR": 74.49,
+          // Add more currency conversions here
+        },
+        "EUR": {
+          "USD": 1.18,
+          "GBP": 0.85,
+          "JPY": 129.74,
+          "INR": 87.50,
+          // Add more currency conversions here
+        },
+        // Add more currency conversions here
+      };
+
+      return exchangeRates[fromCurrency][toCurrency];
+    }
+  </script>
+</body>
+</html>

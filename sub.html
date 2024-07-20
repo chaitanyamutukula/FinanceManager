@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Monthly Payments Tracker</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <div class="logo">
+            <a href="home.html">
+              <img src="logo.png" alt="Finance Manager Logo">
+            </a>
+          </div>
+          <div class="options">
+            <a href="#" class="option">
+              <img src="notifications.png" alt="Notifications Icon" class="notification-icon">
+            </a>
+            <a href="settings.html" class="option">
+              <img src="settings.png" alt="Notifications Icon" class="notification-icon">
+            </a>
+          </div>
+        </div>
+      </header>
+  
+  <div class="payment-table">
+    <h2>Upcoming Payments</h2>
+    <table id="payment-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Event Name</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody id="payment-rows"></tbody>
+    </table>
+  </div>
+
+  <form id="payment-form" class="payment-form">
+    <h2>Add Monthly Payment/Subscription</h2>
+    <div class="form-group">
+      <label for="event-name">Event Name</label>
+      <input type="text" id="event-name" name="event-name" required>
+    </div>
+    <div class="form-group">
+      <label for="event-amount">Amount</label>
+      <input type="text" id="event-amount" name="event-amount" required>
+    </div>
+    <div class="form-group">
+      <label for="event-date">Date</label>
+      <input type="date" id="event-date" name="event-date" required>
+    </div>
+    <button type="submit">Add Payment</button>
+  </form>
+  <script>
+   document.getElementById('payment-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // Get form values
+  var eventName = document.getElementById('event-name').value;
+  var eventAmount = document.getElementById('event-amount').value;
+  var eventDate = new Date(document.getElementById('event-date').value);
+
+  // Format the date as "4th October"
+  var formattedDate = eventDate.getDate() + getDaySuffix(eventDate.getDate()) + ' ' + getMonthName(eventDate.getMonth());
+
+  // Create new table row for the payment
+  var newRow = document.createElement('tr');
+  newRow.innerHTML = '<td>' + formattedDate + '</td>' +
+    '<td>' + eventName + '</td>' +
+    '<td>' + eventAmount + '</td>';
+
+  // Get the table body and add the new row
+  var tableBody = document.getElementById('payment-rows');
+  tableBody.appendChild(newRow);
+
+  // Reset the form
+  document.getElementById('event-name').value = '';
+  document.getElementById('event-amount').value = '';
+  document.getElementById('event-date').value = '';
+});
+
+// Function to get the day suffix
+function getDaySuffix(day) {
+  if (day >= 11 && day <= 13) {
+    return 'th';
+  } else {
+    switch (day % 10) {
+      case 1: return 'st';
+      case 2: return 'nd';
+      case 3: return 'rd';
+      default: return 'th';
+    }
+  }
+}
+
+// Function to get the month name
+function getMonthName(month) {
+  var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  return monthNames[month];
+}
+
+  </script>
+</body>
+</html>

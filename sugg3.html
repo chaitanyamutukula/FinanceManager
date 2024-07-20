@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money Spending Suggestions</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+          <div class="logo">
+            <a href="home.html">
+              <img src="logo.png" alt="Finance Manager Logo">
+            </a>
+          </div>
+          <div class="options">
+            <a href="#" class="option">
+              <img src="notifications.png" alt="Notifications Icon" class="notification-icon">
+            </a>
+            <a href="settings.html" class="option">
+              <img src="settings.png" alt="Notifications Icon" class="notification-icon">
+            </a>
+          </div>
+        </div>
+      </header>
+
+  <main>
+    <div class="spending-container">
+      <h2>Money Spending Suggestions</h2>
+      <form id="spendingForm">
+        <div class="form-group">
+          <label for="amount">Enter the amount in Indian Rupees:</label>
+          <input type="number" id="amount" name="amount" required>
+        </div>
+        <button type="submit">Find Suggestions</button>
+      </form>
+      <div class="suggestions-container">
+        <h3>Suggestions:</h3>
+        <ul id="suggestionsList"></ul>
+      </div>
+    </div>
+  </main>
+
+
+
+  <script>
+  document.getElementById('spendingForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+
+  var amount = parseFloat(document.getElementById('amount').value);
+
+  if (isNaN(amount) || amount <= 0) {
+    alert('Please enter a valid amount.');
+    return;
+  }
+
+  var suggestionsList = document.getElementById('suggestionsList');
+  suggestionsList.innerHTML = '';
+
+  var suggestion = getSuggestion(amount);
+
+  if (suggestion === '') {
+    suggestionsList.innerHTML = '<li>No suggestion found.</li>';
+  } else {
+    var listItem = document.createElement('li');
+    listItem.textContent = suggestion;
+    suggestionsList.appendChild(listItem);
+  }
+});
+
+function getSuggestion(amount) {
+  var suggestions = [];
+
+  if (amount >= 50000) {
+    suggestions.push('A luxury weekend getaway at a 5-star resort');
+    suggestions.push('A shopping spree at a high-end fashion store');
+    suggestions.push('An adventurous trip to the mountains');
+    // Add more suggestions for this category
+  } else if (amount >= 20000) {
+    suggestions.push('A relaxing spa and wellness retreat');
+    suggestions.push('A fine dining experience at a renowned restaurant');
+    suggestions.push('A personalized shopping experience with a personal stylist');
+    // Add more suggestions for this category
+  } else if (amount >= 5000) {
+    suggestions.push('A cultural tour to explore historical landmarks');
+    suggestions.push('A gourmet cooking class with a celebrity chef');
+    suggestions.push('A hot air balloon ride for a breathtaking view');
+    // Add more suggestions for this category
+  } else if (amount >= 1000) {
+    suggestions.push('A concert or theater show tickets for a memorable evening');
+    suggestions.push('A day trip to an exotic wildlife sanctuary');
+    suggestions.push('A helicopter tour for a unique perspective');
+    // Add more suggestions for this category
+  } else if (amount >= 100) {
+    suggestions.push('A fancy dinner at a rooftop restaurant');
+    suggestions.push('A visit to a theme park for thrilling rides');
+    suggestions.push('A personalized gift for someone special');
+    // Add more suggestions for this category
+  } else {
+    return ''; // No suggestion for amounts below 100
+  }
+
+  return getRandomItem(suggestions);
+}
+
+function getRandomItem(array) {
+  var randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+}
+
+  </script>
+</body>
+</html>

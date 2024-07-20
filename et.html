@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Expense Tracker</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="home.html">
+          <img src="logo.png" alt="Finance Manager Logo">
+        </a>
+      </div>
+      <div class="options">
+        <a href="#" class="option">
+          <img src="notifications.png" alt="Notifications Icon" class="notification-icon">
+        </a>
+        <a href="settings.html" class="option">
+          <img src="settings.png" alt="Notifications Icon" class="notification-icon">
+        </a>
+      </div>
+    </div>
+  </header>
+      
+  <main>
+    <div class="expense-container">
+      <h1>Add Expense</h1>
+      <form id="expenseForm">
+        <div class="input-group">
+          <label for="expenseName">Expense Name:</label>
+          <input type="text" id="expenseName" required>
+        </div>
+        <div class="input-group">
+          <label for="expenseCategory">Category:</label>
+          <select id="expenseCategory" required>
+            <option value="">Select Category</option>
+            <option value="Food">Food</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Studies">Studies</option>
+            <option value="Bills">Bills</option>
+            <option value="Miscellaneous">Miscellaneous</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="expensePrice">Price:</label>
+          <input type="number" id="expensePrice" required>
+        </div>
+        <button type="submit" id="addExpenseBtn">Add Expense</button>
+      </form>
+    </div>
+    <div class="summary-container">
+      <h1>Summary</h1>
+      <div class="chart-container">
+        <canvas id="summaryChart" width="400" height="400"></canvas>
+      </div>
+      <div class="tables-container">
+        <div class="category-table">
+          <h2>Category-wise Spending</h2>
+          <table id="categoryTable">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Category-wise spending rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+        <div class="all-expenses-table">
+          <h2>All Expenses</h2>
+          <table id="allExpensesTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- All expenses rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    let expenses = [];
+let summaryChart;
+
+document.getElementById('expenseForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const expenseName = document.getElementById('expenseName').value;
+  const expenseCategory = document.getElementById('expenseCategory').value;
+  const expensePrice = parseFloat(document.getElementById('expensePrice').value);
+
+  if (expenseName && expenseCategory && expensePrice) {
+    const expense = {
+      name: expenseName,
+      category: expenseCategory,
+      price: expensePrice,
+      date: new Date().toLocaleDateString()
+    };
+
+    expenses.push(expense);
+
+    updateCategoryTable();
+    updateAllExpensesTable();
+    updateSummaryChart();
+
+    document.getElementById('expenseName').value = '';
+    document.getElementById('expenseCategory').selectedIndex = 0;
+    document.getElementById('expensePrice').value = '';
+  }
+});
+
+function updateCategoryTable() {
+    const categoryTableBody = document.getElementById('categoryTable').getElementsByTagName('tbody')[0];
+    categoryTableBody.innerHTML = '';
+  
+    const categoryData = calculateCategoryData();
+  
+    let total = 0;
+  
+    for (const category in categoryData) {
+      const amount = categoryData[category];
+      total += amount;
+  
+      const row = categoryTableBody.insertRow();
+      const categoryCell = row.insertCell();
+      const amountCell = row.insertCell();
+  
+      categoryCell.textContent = category;
+      amountCell.textContent = amount.toFixed(2);
+    }
+  
+    // Add total row
+    const totalRow = categoryTableBody.insertRow();
+    const totalCell = totalRow.insertCell();
+    const amountTotalCell = totalRow.insertCell();
+  
+    totalCell.textContent = 'Total';
+    amountTotalCell.textContent = total.toFixed(2);
+  }
+  
+
+function updateAllExpensesTable() {
+  const allExpensesTableBody = document.getElementById('allExpensesTable').getElementsByTagName('tbody')[0];
+  allExpensesTableBody.innerHTML = '';
+
+  for (const expense of expenses) {
+    const row = allExpensesTableBody.insertRow();
+    const nameCell = row.insertCell();
+    const categoryCell = row.insertCell();
+    const priceCell = row.insertCell();
+    const dateCell = row.insertCell();
+
+    nameCell.textContent = expense.name;
+    categoryCell.textContent = expense.category;
+    priceCell.textContent = expense.price.toFixed(2);
+    dateCell.textContent = expense.date;
+  }
+}
+
+function updateSummaryChart() {
+  const categoryData = calculateCategoryData();
+
+  const chartLabels = Object.keys(categoryData);
+  const chartData = Object.values(categoryData);
+
+  if (summaryChart) {
+    summaryChart.data.labels = chartLabels;
+    summaryChart.data.datasets[0].data = chartData;
+    summaryChart.update();
+  } else {
+    const ctx = document.getElementById('summaryChart').getContext('2d');
+    summaryChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: chartLabels,
+        datasets: [{
+          data: chartData,
+          backgroundColor: ['#2EC4B6', '#FF7F11', '#FFEF8E', '#F21D1D', '#484D6D', '#7A6563', '#A5C4A7'],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          position: 'bottom'
+        }
+      }
+    });
+  }
+}
+
+function calculateCategoryData() {
+  const categoryData = {};
+
+  for (const expense of expenses) {
+    if (categoryData[expense.category]) {
+      categoryData[expense.category] += expense.price;
+    } else {
+      categoryData[expense.category] = expense.price;
+    }
+  }
+
+  return categoryData;
+}
+
+  </script>
+</body>
+</html>

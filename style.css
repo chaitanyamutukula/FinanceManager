@@ -1,0 +1,277 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fafafa;
+}
+
+.header {
+  background-color: #2EC4B6;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2EC4B6; /* Update to your desired green color */
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+  width: 80px;
+}
+
+.options {
+  display: flex;
+  align-items: center;
+}
+
+.options .option {
+  margin-right: 10px;
+  color: white;
+  text-decoration: none;
+}
+
+.options .option:hover {
+  text-decoration: underline;
+}
+
+main {
+  padding: 20px;
+  text-align: center;
+}
+
+.expense-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.expense-container h2 {
+  margin-bottom: 20px;
+  color: #2EC4B6;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333333;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  padding: 10px 20px;
+  background-color: #2EC4B6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.summary-container {
+  margin-top: 40px;
+}
+
+.category-container {
+  margin-top: 40px;
+}
+
+.all-expenses-container {
+  margin-top: 40px;
+}
+
+#summaryChart {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+#categoryTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#categoryTable th,
+#categoryTable td {
+  padding: 10px;
+  border: 1px solid #dddddd;
+}
+
+#allExpensesTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#allExpensesTable th,
+#allExpensesTable td {
+  padding: 10px;
+  border: 1px solid #dddddd;
+}
+
+.notification-icon {
+  width: 60px; /* Adjust the size as needed */
+}
+
+.home-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.home-container h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #2EC4B6;
+}
+
+.options-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.options-container .option {
+  display: block;
+  background-color: #2EC4B6;
+  color: #ffffff;
+  padding: 15px 20px;
+  border-radius: 5px;
+  font-size: 18px;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+.options-container .option:hover {
+  background-color: #27a09e;
+}
+
+footer {
+  background-color: #ffffff;
+  padding: 10px;
+  text-align: center;
+  color: #888888;
+  font-size: 14px;
+}
+.result-container, .summary-container, .category-container, .all-expenses-container {
+  margin-top: 40px;
+}
+
+#resultTable, #categoryTable, #allExpensesTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#resultTable th,
+#resultTable td,
+#categoryTable th,
+#categoryTable td,
+#allExpensesTable th,
+#allExpensesTable td {
+  padding: 10px;
+  border: 1px solid #dddddd;
+}
+/* Your existing CSS styles for the finance manager */
+
+/* Additional CSS styles for the payment tracker */
+.payment-table {
+margin-top: 20px;
+}
+
+.payment-table table {
+width: 100%;
+border-collapse: collapse;
+}
+
+.payment-table table th,
+.payment-table table td {
+padding: 10px;
+border: 1px solid #ccc;
+}
+
+.payment-form {
+margin-top: 20px;
+}
+
+.payment-form h2 {
+font-size: 18px;
+margin-bottom: 10px;
+}
+
+.payment-form .form-group {
+margin-bottom: 10px;
+}
+
+.payment-form label {
+display: block;
+font-weight: bold;
+margin-bottom: 5px;
+}
+
+.payment-form input[type="text"],
+.payment-form input[type="date"] {
+width: 100%;
+padding: 8px;
+font-size: 16px;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+
+.payment-form button[type="submit"] {
+padding: 8px 15px;
+font-size: 16px;
+background-color: #27a09e;
+color: #fff;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+.payment-form button[type="submit"]:hover {
+background-color: #27a09e;
+}
+
+footer {
+margin-top: 20px;
+text-align: center;
+background-color: #f2f2f2;
+padding: 10px;
+}
+.settings-icon {
+width: 24px;
+height: 24px;
+}
+
+.notifications-icon {
+width: 24px;
+height: 24px;
+}

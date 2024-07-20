@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Manager - Settings</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="home.html">
+          <img src="logo.png" alt="Finance Manager Logo">
+        </a>
+      </div>
+      <div class="options">
+        <a href="#" class="option">
+          <img src="notifications.png" alt="Notifications Icon" class="notification-icon">
+        </a>
+        <a href="settings.html" class="option">
+          <img src="settings.png" alt="Notifications Icon" class="notification-icon">
+        </a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <h1>Settings</h1>
+    <form id="settings-form">
+      <div class="form-group">
+        <label for="currency">Currency:</label>
+        <select id="currency">
+          <option value="INR">INR - Indian Rupee</option>
+          <option value="USD">USD - United States Dollar</option>
+          <option value="EUR">EUR - Euro</option>
+          <option value="GBP">GBP - British Pound</option>
+          <!-- Add more currency options as needed -->
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="language">Language:</label>
+        <select id="language">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="te">Telugu</option>
+          <option value="ta">Tamil</option>
+          <!-- Add more language options as needed -->
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="timezone">Timezone:</label>
+        <select id="timezone">
+          <option value="Asia/Kolkata">Kolkata (GMT+5:30)</option>
+          <option value="America/New_York">New York (GMT-4)</option>
+          <option value="Europe/London">London (GMT+1)</option>
+          <option value="Asia/Tokyo">Tokyo (GMT+9)</option>
+          <!-- Add more timezone options as needed -->
+        </select>
+      </div>
+
+      <button type="submit">Save</button>
+    </form>
+  </main>
+
+ 
+
+  <script>
+    document.getElementById('settings-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  // Get form values
+  var currency = document.getElementById('currency').value;
+  var language = document.getElementById('language').value;
+  var timezone = document.getElementById('timezone').value;
+
+  // Save settings to local storage or send to server
+  saveSettings(currency, language, timezone);
+
+  // Display success message
+  showMessage('Settings saved successfully!', 'success');
+});
+
+// Function to save settings
+function saveSettings(currency, language, timezone) {
+  // Save settings to local storage or send to server
+  // Replace this with your own implementation
+  // Example: localStorage.setItem('currency', currency);
+}
+
+// Function to display message
+function showMessage(message, type) {
+  var messageBox = document.getElementById('message');
+  messageBox.textContent = message;
+  messageBox.className = 'message ' + type;
+  messageBox.style.display = 'block';
+
+  // Hide the message after 3 seconds
+  setTimeout(function() {
+    messageBox.style.display = 'none';
+  }, 3000);
+}
+
+  </script>
+</body>
+</html>

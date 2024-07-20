@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Goal Tracker</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    /* Your custom CSS styles */
+    /* ... */
+    .option img {
+      width: 50px; /* Adjust the width to your desired size */
+    }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+  
+    
+    
+    
+    .options {
+      display: flex;
+      align-items: center;
+    }
+    
+    .option {
+      margin-right: 10px;
+    }
+    
+
+    
+    h1 {
+      text-align: center;
+      margin-top: 30px;
+    }
+    
+    h2 {
+      margin-top: 20px;
+    }
+    
+    .form-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      padding: 0 20px;
+    }
+    
+    .form-container .form-group {
+      flex-basis: 45%;
+    }
+    
+    .form-container .form-group h2 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #333333;
+    }
+    
+    .form-container input[type="text"],
+    .form-container input[type="number"],
+    .form-container select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #dddddd;
+      border-radius: 5px;
+    }
+    
+    .create-goal-button,
+    .add-amount-button {
+      padding: 12px 24px;
+      background-color: #2EC4B6;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .create-goal-button:hover,
+    .add-amount-button:hover {
+      background-color: #27A09E;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: #2EC4B6;
+      color: #ffffff;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    td {
+      color: #333333;
+    }
+    
+    tbody tr:nth-child(even) {
+      background-color: #F5F5F5;
+    }
+    
+    tbody tr:hover {
+      background-color: #E5F6F6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="home.html">
+          <img src="logo.png" alt="Finance Manager Logo">
+        </a>
+      </div>
+      <div class="options">
+        <a href="#" class="option">
+          <img src="notifications.png" alt="Notifications Icon" class="notification-icon">
+        </a>
+        <a href="settings.html" class="option">
+          <img src="settings.png" alt="Settings Icon" class="notification-icon">
+        </a>
+      </div>
+    </div>
+  </header>
+  <h1>Goal Tracker</h1>
+
+  <div class="form-container">
+    <div class="form-group">
+      <h2>Create a Goal</h2>
+      <input type="text" id="goalName" placeholder="Goal Name">
+      <input type="number" id="goalAmount" placeholder="Goal Amount">
+      <input type="date" id="goalDeadline">
+      <button type="button" class="create-goal-button" onclick="createGoal()">Create Goal</button>
+    </div>
+    <div class="form-group">
+      <h2>Add Amount to Existing Goal</h2>
+      <select id="selectedGoal"></select>
+      <input type="number" id="amountToAdd" placeholder="Amount to Add">
+      <button type="button" class="add-amount-button" onclick="addAmount()">Add Amount</button>
+    </div>
+  </div>
+
+  <h2>Goals</h2>
+  <table id="goalsTable">
+    <thead>
+      <tr>
+        <th>Goal Name</th>
+        <th>Deadline</th>
+        <th>Amount</th>
+        <th>Progress</th>
+        <th>Remaining</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Goals data will be populated dynamically using JavaScript -->
+    </tbody>
+  </table>
+
+  <script>
+    // JavaScript code
+    // ...
+
+    // Initialize an array to store goals
+    var goals = [];
+
+    // Function to create a new goal
+    function createGoal() {
+      // Get user input values
+      var goalName = document.getElementById("goalName").value;
+      var goalAmount = document.getElementById("goalAmount").value;
+      var goalDeadline = document.getElementById("goalDeadline").value;
+
+      // Create a new goal object
+      var newGoal = {
+        name: goalName,
+        amount: goalAmount,
+        deadline: goalDeadline,
+        progress: 0
+      };
+
+      // Add the new goal to the goals array
+      goals.push(newGoal);
+
+      // Clear the input fields
+      document.getElementById("goalName").value = "";
+      document.getElementById("goalAmount").value = "";
+      document.getElementById("goalDeadline").value = "";
+
+      // Update the goals table
+      updateGoalsTable();
+      updateGoalDropdown();
+    }
+
+    // Function to add amount to an existing goal
+    function addAmount() {
+      // Get user input values
+      var selectedGoal = document.getElementById("selectedGoal").value;
+      var amountToAdd = document.getElementById("amountToAdd").value;
+
+      // Find the selected goal in the goals array
+      var goalIndex = goals.findIndex(function(goal) {
+        return goal.name === selectedGoal;
+      });
+
+      // Update the goal's progress
+      goals[goalIndex].progress += parseInt(amountToAdd);
+
+      // Clear the input fields
+      document.getElementById("selectedGoal").value = "";
+      document.getElementById("amountToAdd").value = "";
+
+      // Update the goals table
+      updateGoalsTable();
+    }
+
+    // Function to update the goals table
+    function updateGoalsTable() {
+      var goalsTable = document.getElementById("goalsTable");
+      goalsTable.innerHTML = "";
+
+      // Create table header
+      var headerRow = goalsTable.insertRow(0);
+      var headers = ["Goal Name", "Deadline", "Amount", "Progress", "Remaining"];
+      headers.forEach(function(header) {
+        var th = document.createElement("th");
+        th.innerHTML = header;
+        headerRow.appendChild(th);
+      });
+
+      // Loop through the goals array and add each goal to the table
+      goals.forEach(function(goal, index) {
+        var row = goalsTable.insertRow(index + 1);
+        var nameCell = row.insertCell(0);
+        var deadlineCell = row.insertCell(1);
+        var amountCell = row.insertCell(2);
+        var progressCell = row.insertCell(3);
+        var remainingCell = row.insertCell(4);
+
+        nameCell.innerHTML = goal.name;
+        deadlineCell.innerHTML = goal.deadline;
+        amountCell.innerHTML = goal.amount;
+        progressCell.innerHTML = goal.progress;
+        remainingCell.innerHTML = goal.amount - goal.progress;
+      });
+    }
+
+    // Function to update the goal dropdown
+    function updateGoalDropdown() {
+      var goalDropdown = document.getElementById("selectedGoal");
+      goalDropdown.innerHTML = "";
+
+      // Add default option
+      var defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.disabled = true;
+      defaultOption.selected = true;
+      defaultOption.innerHTML = "Select Goal";
+      goalDropdown.appendChild(defaultOption);
+
+      // Loop through the goals array and add each goal to the dropdown
+      goals.forEach(function(goal) {
+        var option = document.createElement("option");
+        option.value = goal.name;
+        option.innerHTML = goal.name;
+        goalDropdown.appendChild(option);
+      });
+    }
+
+    // Update the goal dropdown initially
+    updateGoalDropdown();
+  </script>
+</body>
+</html>

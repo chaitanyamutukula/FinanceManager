@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Income Management</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Table styles */
+    #incomeTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    #incomeTable th,
+    #incomeTable td {
+      padding: 10px;
+      border: 1px solid #dddddd;
+    }
+
+    #incomeTable thead {
+      background-color: #2EC4B6;
+      color: #ffffff;
+    }
+
+    #incomeTable tfoot {
+      font-weight: bold;
+    }
+
+    #incomeTable tfoot td {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="home.html">
+          <img src="logo.png" alt="Finance Manager Logo">
+        </a>
+      </div>
+      <div class="options">
+        <a href="#" class="option">
+          <img src="notifications.png" alt="Notifications Icon" class="notification-icon">
+        </a>
+        <a href="settings.html" class="option">
+          <img src="settings.png" alt="Notifications Icon" class="notification-icon">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="income-container">
+      <h2>Income Management</h2>
+      <form id="incomeForm">
+        <div class="form-group">
+          <label for="incomeSource">Income Source:</label>
+          <input type="text" id="incomeSource" required>
+        </div>
+        <div class="form-group">
+          <label for="incomeAmount">Amount:</label>
+          <input type="number" id="incomeAmount" required>
+        </div>
+        <div class="form-group">
+          <label for="incomeCategory">Category:</label>
+          <select id="incomeCategory" required>
+            <option value="">Select Category</option>
+            <option value="Salary">Salary</option>
+            <option value="Investments">Investments</option>
+            <option value="Side Hustle">Side Hustle</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="incomeFrequency">Frequency:</label>
+          <select id="incomeFrequency" required>
+            <option value="">Select Frequency</option>
+            <option value="Monthly">Monthly</option>
+            <option value="Yearly">Yearly</option>
+          </select>
+        </div>
+        <button type="submit">Add Income</button>
+      </form>
+    </div>
+
+    <div class="income-summary">
+      <h3>Income Summary</h3>
+      <table id="incomeTable">
+        <thead>
+          <tr>
+            <th>Income Source</th>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Frequency</th>
+          </tr>
+        </thead>
+        <tbody id="incomeTableBody">
+          <!-- Income entries will be dynamically added here -->
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">Total:</td>
+            <td id="totalAmount"></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </main>
+
+  
+
+  <script src="script.js"></script>
+  <script>
+    // JavaScript code goes here
+
+    // Get form and table elements
+    const incomeForm = document.getElementById('incomeForm');
+    const incomeTableBody = document.getElementById('incomeTableBody');
+    const totalAmountCell = document.getElementById('totalAmount');
+
+    // Initialize total amount
+    let totalAmount = 0;
+
+    // Add event listener to form submission
+    incomeForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      // Get user input values
+      const incomeSource = document.getElementById('incomeSource').value;
+      const incomeAmount = parseFloat(document.getElementById('incomeAmount').value);
+      const incomeCategory = document.getElementById('incomeCategory').value;
+      const incomeFrequency = document.getElementById('incomeFrequency').value;
+
+      // Create a new table row with the user input
+      const newRow = document.createElement('tr');
+      newRow.innerHTML = `
+        <td>${incomeSource}</td>
+        <td>${incomeAmount}</td>
+        <td>${incomeCategory}</td>
+        <td>${incomeFrequency}</td>
+      `;
+
+      // Append the new row to the income table
+      incomeTableBody.appendChild(newRow);
+
+      // Update total amount
+      totalAmount += incomeAmount;
+      totalAmountCell.textContent = totalAmount;
+
+      // Clear form inputs
+      incomeForm.reset();
+    });
+  </script>
+</body>
+</html>

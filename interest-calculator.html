@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finance Manager</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <a href="home.html">
+          <img src="logo.png" alt="Finance Manager Logo">
+        </a>
+      </div>
+      <div class="options">
+        <a href="#" class="option">
+          <img src="notifications.png" alt="Notifications Icon" class="notification-icon">
+        </a>
+        <a href="settings.html" class="option">
+          <img src="settings.png" alt="Notifications Icon" class="notification-icon">
+        </a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="calculator-container">
+      <h2>Interest Calculator</h2>
+      <form id="interestForm">
+        <div class="form-group">
+          <label for="calculatorType">Calculator Type:</label>
+          <select name="calculatorType" id="calculatorType">
+            <option value="simple">Simple Interest</option>
+            <option value="compound">Compound Interest</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="principalAmount">Principal Amount:</label>
+          <input type="number" name="principalAmount" id="principalAmount" required>
+        </div>
+        <div class="form-group">
+          <label for="annualRate">Annual Interest Rate (%):</label>
+          <input type="number" name="annualRate" id="annualRate" required>
+        </div>
+        <div class="form-group">
+          <label for="periodUnit">Period Unit:</label>
+          <select name="periodUnit" id="periodUnit">
+            <option value="years">Years</option>
+            <option value="months">Months</option>
+            <option value="days">Days</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="period">Period:</label>
+          <input type="number" name="period" id="period" required>
+        </div>
+        <div class="form-group" id="compoundFrequencyContainer" style="display: none;">
+          <label for="compoundFrequency">Compound Frequency:</label>
+          <input type="number" name="compoundFrequency" id="compoundFrequency">
+        </div>
+        <button type="submit">Calculate</button>
+      </form>
+    </div>
+
+    <div class="result-container" id="resultContainer" style="display: none;">
+      <h2>Result</h2>
+      <table id="resultTable">
+        <tr>
+          <th>Interest Earned</th>
+          <th>Principal Amount</th>
+          <th>Total Value</th>
+        </tr>
+        <tr>
+          <td id="interestEarned"></td>
+          <td id="principalAmountResult"></td>
+          <td id="totalValue"></td>
+        </tr>
+      </table>
+    </div>
+  </main>
+
+
+
+  <script>
+    // JavaScript code goes here
+    const interestForm = document.getElementById('interestForm');
+    const resultContainer = document.getElementById('resultContainer');
+    const interestEarned = document.getElementById('interestEarned');
+    const principalAmountResult = document.getElementById('principalAmountResult');
+    const totalValue = document.getElementById('totalValue');
+    const calculatorType = document.getElementById('calculatorType');
+    const compoundFrequencyContainer = document.getElementById('compoundFrequencyContainer');
+
+    interestForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const principalAmount = parseFloat(document.getElementById('principalAmount').value);
+      const annualRate = parseFloat(document.getElementById('annualRate').value);
+      const periodUnit = document.getElementById('periodUnit').value;
+      const period = parseFloat(document.getElementById('period').value);
+
+      let interest = 0;
+      let total = 0;
+
+      if (calculatorType.value === 'simple') {
+        interest = (principalAmount * annualRate * period) / 100;
+        total = principalAmount + interest;
+      } else if (calculatorType.value === 'compound') {
+        const compoundFrequency = parseFloat(document.getElementById('compoundFrequency').value);
+        interest = principalAmount * (Math.pow(1 + annualRate / (100 * compoundFrequency), compoundFrequency * period) - 1);
+        total = principalAmount + interest;
+      }
+
+      interestEarned.textContent = interest.toFixed(2);
+      principalAmountResult.textContent = principalAmount.toFixed(2);
+      totalValue.textContent = total.toFixed(2);
+
+      resultContainer.style.display = 'block';
+    });
+
+    calculatorType.addEventListener('change', function () {
+      if (calculatorType.value === 'compound') {
+        compoundFrequencyContainer.style.display = 'block';
+      } else {
+        compoundFrequencyContainer.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
